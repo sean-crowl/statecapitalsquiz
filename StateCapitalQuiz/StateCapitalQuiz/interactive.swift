@@ -21,18 +21,20 @@ class Interactive {
             let selection = currentInput
             switch selection {
             case "Start":
-                let index: Int = Int(arc4random_uniform(UInt32(state.stateCapitals.count)))
-                let key = Array(state.stateCapitals.keys)[index]
-                if !state.correctCapitals.keys.contains(state.stateCapitals[key]!) && !state.correctCapitals.keys.contains(state.stateCapitals[key]!) {
-                    print("What is the capital of: \n\n\(state.stateCapitals[key]!) \n")
+                let capitalArray = state.stateCapitals.flatMap(){ $0.0 }
+                let index: Int = Int(arc4random_uniform(UInt32(capitalArray.count)))
+                let key = capitalArray[index]
+                if !state.correctCapitals.keys.contains(key) && !state.correctCapitals.keys.contains(key) {
+                    print("What is the capital of: \n\n\(key) \n")
                 }
                 currentInput = io.getInput()
                 if state.stateCapitals.keys.contains(currentInput) {
                     print("Correct!")
-                    state.correctCapitals[state.stateCapitals[key]!] = currentInput
+                    state.correctCapitals[key] = currentInput
                     print(state.correctCapitals)
                 } else {
-                    print("Incorrect!")
+                    print("Incorrect! \nThe capital of \(key) is: \(state.stateCapitals[key]!)")
+                    print(state.incorrectCapitals)
                 }
             case "Quit":
                 print("\nThank you for playing!")
