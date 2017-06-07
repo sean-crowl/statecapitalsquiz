@@ -27,22 +27,27 @@ class Interactive {
                     let index: Int = Int(arc4random_uniform(UInt32(capitalArray.count)))
                     let key = capitalArray[index]
                     
-                    print("What is the capital of: \n\n\(key) \n")
+                    print("\n\nWhat is the capital of: \n\n\(key) \n")
                     currentInput = io.getInput()
                     
                     if state.stateCapitals[key] == currentInput {
                         print("Correct!")
                         state.correctCapitals[key] = currentInput
-                        print(state.correctCapitals)
                         capitalArray.remove(at: index)
-                        print(capitalArray)
                     } else {
                         print("Incorrect! \nThe capital of \(key) is: \(state.stateCapitals[key]!)")
                         state.incorrectCapitals[key] = state.stateCapitals[key]!
-                        print(state.incorrectCapitals)
                         capitalArray.remove(at: index)
-                        print(capitalArray)
                     }
+                }
+                
+                print("\n\nThe game is over! Here are the capitals you missed: \n\(state.incorrectCapitals) \n\nIf you would like to restart, type Restart. Type anything else to quit.")
+                currentInput = io.getInput()
+                if currentInput == "Yes" {
+                    print("Restarting...\n")
+                } else {
+                    print("\nThank you for playing!")
+                    done = true
                 }
             case "Quit":
                 print("\nThank you for playing!")
