@@ -22,20 +22,27 @@ class Interactive {
             switch selection {
             case "Start":
                 var capitalArray = state.stateCapitals.flatMap(){ $0.0 }
-                let index: Int = Int(arc4random_uniform(UInt32(capitalArray.count)))
-                let key = capitalArray[index]
                 
-                print("What is the capital of: \n\n\(key) \n")
-                currentInput = io.getInput()
-                
-                if state.stateCapitals[key] == currentInput {
-                    print("Correct!")
-                    state.correctCapitals[key] = currentInput
-                    print(state.correctCapitals)
-                } else {
-                    print("Incorrect! \nThe capital of \(key) is: \(state.stateCapitals[key]!)")
-                    state.incorrectCapitals[key] = state.stateCapitals[key]!
-                    print(state.incorrectCapitals)
+                while capitalArray.count > 0 {
+                    let index: Int = Int(arc4random_uniform(UInt32(capitalArray.count)))
+                    let key = capitalArray[index]
+                    
+                    print("What is the capital of: \n\n\(key) \n")
+                    currentInput = io.getInput()
+                    
+                    if state.stateCapitals[key] == currentInput {
+                        print("Correct!")
+                        state.correctCapitals[key] = currentInput
+                        print(state.correctCapitals)
+                        capitalArray.remove(at: index)
+                        print(capitalArray)
+                    } else {
+                        print("Incorrect! \nThe capital of \(key) is: \(state.stateCapitals[key]!)")
+                        state.incorrectCapitals[key] = state.stateCapitals[key]!
+                        print(state.incorrectCapitals)
+                        capitalArray.remove(at: index)
+                        print(capitalArray)
+                    }
                 }
             case "Quit":
                 print("\nThank you for playing!")
